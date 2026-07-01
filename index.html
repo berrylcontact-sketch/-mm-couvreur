@@ -447,8 +447,8 @@
 
         <div class="photo-upload">
           <label>📷 Photos de votre toiture (optionnel)</label>
-          <span class="hint">Ça nous aide à préparer un devis plus précis</span>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=m.y62pro@gmail.com&su=Photos%20pour%20mon%20devis%20toiture" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;padding:10px 18px;border-radius:24px;font-weight:700;font-size:13.5px;text-decoration:none;">✉️ Envoyer les photos</a>
+          <span class="hint">Remplissez le formulaire ci-dessus, vos infos seront déjà dans le mail — il ne reste plus qu'à joindre vos photos</span>
+          <a id="photo-mail-link" href="https://mail.google.com/mail/?view=cm&fs=1&to=m.y62pro@gmail.com&su=Photos%20pour%20mon%20devis%20toiture" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;padding:10px 18px;border-radius:24px;font-weight:700;font-size:13.5px;text-decoration:none;">✉️ Envoyer les photos</a>
         </div>
 
         <button type="submit" class="submit-btn">Envoyer ma demande</button>
@@ -477,6 +477,28 @@
 </footer>
 
 <script>
+function updatePhotoMailLink(){
+  var nom = document.getElementById('nom').value || '(non renseigné)';
+  var tel = document.getElementById('tel').value || '(non renseigné)';
+  var type = document.getElementById('type').value;
+  var message = document.getElementById('message').value || '(aucun détail ajouté)';
+
+  var body = 'Bonjour,\n\n'
+    + 'Nom : ' + nom + '\n'
+    + 'Téléphone : ' + tel + '\n'
+    + 'Type de travaux : ' + type + '\n'
+    + 'Description : ' + message + '\n\n'
+    + "(Photos jointes ci-dessous 📎)";
+
+  var link = document.getElementById('photo-mail-link');
+  link.href = 'https://mail.google.com/mail/?view=cm&fs=1&to=m.y62pro@gmail.com&su=Photos%20pour%20mon%20devis%20toiture&body=' + encodeURIComponent(body);
+}
+['nom','tel','type','message'].forEach(function(id){
+  document.getElementById(id).addEventListener('input', updatePhotoMailLink);
+  document.getElementById(id).addEventListener('change', updatePhotoMailLink);
+});
+updatePhotoMailLink();
+
 document.getElementById('devis-form').addEventListener('submit', function(e){
   e.preventDefault();
   var form = e.target;
